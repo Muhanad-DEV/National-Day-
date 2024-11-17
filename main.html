@@ -137,10 +137,75 @@
     border: none;
     cursor: pointer;
   }
+  .side-gif {
+  position: fixed;
+  top: 50%; /* Adjust to position vertically */
+  right: 10px; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 150px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+  .side2-gif {
+  position: fixed;
+  top: 20%; /* Adjust to position vertically */
+  right: 85%; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 130px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+  .side3-gif {
+  position: fixed;
+  top: 47%; /* Adjust to position vertically */
+  right: 80%; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 150px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+  .side4-gif {
+  position: fixed;
+  top: 80%; /* Adjust to position vertically */
+  right: 88%; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 150px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+  .side5-gif {
+  position: fixed;
+  top: 20%; /* Adjust to position vertically */
+  right: 12%; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 170px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
+  .side6-gif {
+  position: fixed;
+  top: 80%; /* Adjust to position vertically */
+  right: 12%; /* Adjust to position horizontally */
+  transform: translateY(-50%);
+  width: 170px; /* Adjust size */
+  height: auto;
+  z-index: 1000; /* Ensure it stays above other elements */
+}
 </style>
 </head>
 <body>
-
+<!-- Add GIF -->
+<img src="giphy.gif" alt="GIF" class="side-gif">
+<!-- Add GIF -->
+<img src="oman-flag-animation.gif" alt="GIF" class="side2-gif">
+<!-- Add GIF -->
+<img src="200w (1).gif" alt="GIF" class="side3-gif">
+<!-- Add GIF -->
+<img src="200w.gif" alt="GIF" class="side4-gif">
+<!-- Add GIF -->
+<img src="giphy (2).gif" alt="GIF" class="side5-gif">
+<!-- Add GIF -->
+<img src="f.jpg" alt="GIF" class="side6-gif">
 <!-- Alert Message -->
 <div class="myalert" id="idalert" style="border-radius:16px;">
   <p>مرحبًا بك في ركن مجموعة علوم الحاسب الآلي، نورتنا 🌟<br> استمتع 💫</p>
@@ -163,8 +228,8 @@
 <script>
   const quizData = [
     {
-        question: "كم علم عند البرج ؟",
-        options: ["1", "2", "3", "4"],
+        question: "ما هو اسم هذا البرج؟",
+        options: ["برج الجامعة", "برج خليفة", "برج النهضة", "معرف بس الدوار اللي يصير عنده زحمة"],
         answer: 3,
         model: "https://sketchfab.com/models/c96f93602b9e48ce8548e91c3e61dce3/embed"
     },
@@ -211,8 +276,8 @@
         model: "https://sketchfab.com/models/8c4dcb7c501e43e89d9e577dba46819e/embed"
     },
     {
-        question: "هذا باب اي مسجد/جامع؟",
-        options: ["مسجد قلهات", "مسجد الجامعة", "مسجد قريب بيتنا", "جامع السلطان قابوس الأكبر"],
+        question: "كم علم عند البرج؟",
+        options: ["1", "2", "3", "4"],
         answer: 3,
         model: "https://sketchfab.com/models/4a97b32ecfec40bf8240d6a0e457ed33/embed"
     },
