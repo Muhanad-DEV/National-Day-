@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مسابقة اليوم الوطني العماني</title>
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    background-color: #151515;
+    font-family: Arial, sans-serif;
+    direction: rtl;
+  }
+
+  h2 {
+    color: #eeeeee;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 2px #006400;
+  }
+
+  #quiz-container {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 3px solid #a91d3a;
+    border-radius: 15px;
+    box-shadow: 0 0 10px #a91d3a;
+    text-align: center;
+    max-width: 600px;
+    width: 100%;
+  }
+
+  .question {
+    color: #a91d3a;
+    margin-bottom: 20px;
+  }
+
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .option {
+    padding: 10px;
+    background-color: #ffffff;
+    border: 2px solid #006400;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .option:hover {
+    background-color: #c1e1c1;
+  }
+
+  .option.selected {
+    background-color: #a91d3a;
+    color: #ffffff;
+  }
+
+  #submit {
+    padding: 10px 20px;
+    background-color: #a91d3a;
+    color: #eeeeee;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #submit:hover {
+    background-color: #c73659;
+  }
+
+  #result {
+    margin-top: 20px;
+    font-size: 24px;
+  }
+
+  #success-message {
+    color: #28a745;
+    font-weight: bold;
+  }
+
+  #failure-message {
+    color: #dc3545;
+    font-weight: bold;
+  }
+
+  iframe {
+    width: 100%;
+    height: 300px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+  }
+
+  .myalert {
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: right;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+  .myalert button {
+    margin-top: 20px;
+    background-color: #000000;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- Alert Message -->
+<div class="myalert" id="idalert">
+  <p>مرحبًا بك في ركن مجموعة علوم الحاسب الآلي، نورتنا 🌟<br> استمتع 💫</p>
+  <button onclick="closeAlert()">إغلاق</button>
+</div>
+
+<!-- Quiz Container -->
+<h2>مسابقة اليوم الوطني العماني</h2>
+<div id="quiz-container">
+  <div id="question-container">
+    <iframe id="model" src=""></iframe>
+    <p class="question" id="question">السؤال هنا...</p>
+    <div class="options" id="options"></div>
+  </div>
+  <button id="submit">استمر</button>
+  <div id="result"></div>
+</div>
+
+<script>
+  const quizData = [
+    {
+        question: "ما هو اسم هذا البرج؟",
+        options: ["برج الصحوة", "برج خليفة", "برج نزوى", "برج روي"],
+        answer: 0,
+        model: "https://sketchfab.com/models/c96f93602b9e48ce8548e91c3e61dce3/embed"
+    },
+    {
+        question: "ما هو استخدام هذا المجمر؟",
+        options: ["للطهي", "للتبخير", "للزينة", "للتدفئة"],
+        answer: 1,
+        model: "https://sketchfab.com/models/f06d3590ab794f3884d15bf3e75cee5c/embed"
+    },
+    {
+        question: "ما نوع هذه الفاكهة؟",
+        options: ["موز", "تفاح", "جوز الهند", "برتقال"],
+        answer: 2,
+        model: "https://sketchfab.com/models/3e5e22e538474cccb45575d0b13300c5/embed"
+    },
+    {
+        question: "ما هو الموقع الأثري الذي يظهر هنا؟",
+        options: ["نزوى", "قلهات", "بهلا", "الحمراء"],
+        answer: 1,
+        model: "https://sketchfab.com/models/b3a4d6bc52944b5c9075668fcef61a16/embed"
+    },
+    {
+        question: "ما هو هذا الغطاء التقليدي؟",
+        options: ["عقال", "عمامة", "قبعة عمانية", "سروال"],
+        answer: 2,
+        model: "https://sketchfab.com/models/35a038d002ff4917954755439059b113/embed"
+    },
+    {
+        question: "ما هو محتوى هذه العلبة؟",
+        options: ["تمر", "رقائق بطاطس", "شاي", "قهوة"],
+        answer: 1,
+        model: "https://sketchfab.com/models/711b041a8f1b4874bfc41da35841a6f5/embed"
+    },
+    {
+        question: "ما هو هذا الخنجر العماني؟",
+        options: ["سيف", "خنجر", "رمح", "مطرقة"],
+        answer: 1,
+        model: "https://sketchfab.com/models/2eb93b7ff5d64dfbb97aec3ad02d74a2/embed"
+    },
+    {
+        question: "ما نوع هذا الصندوق الأثري؟",
+        options: ["صندوق ذهب", "صندوق مجوهرات", "صندوق تخزين", "صندوق أدوات"],
+        answer: 2,
+        model: "https://sketchfab.com/models/8c4dcb7c501e43e89d9e577dba46819e/embed"
+    },
+    {
+        question: "ما هو هذا المسجد؟",
+        options: ["مسجد السلطان قابوس", "مسجد نزوى", "مسجد قلهات", "مسجد صحار"],
+        answer: 0,
+        model: "https://sketchfab.com/models/4a97b32ecfec40bf8240d6a0e457ed33/embed"
+    },
+    {
+        question: "ما هو استخدام هذا الكائن؟",
+        options: ["أداة زينة", "أداة للكتابة", "سلاح", "أداة تخزين"],
+        answer: 2,
+        model: "https://sketchfab.com/models/d3d15589f06f41ec9cbc6a6d11799127/embed"
+    }
+];
+
+
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let selectedAnswer;
+
+  const questionElement = document.getElementById('question');
+  const optionsContainer = document.getElementById('options');
+  const modelElement = document.getElementById('model');
+  const resultElement = document.getElementById('result');
+  const submitButton = document.getElementById('submit');
+
+  function loadQuestion() {
+    const currentQuestion = quizData[currentQuestionIndex];
+    questionElement.textContent = currentQuestion.question;
+    optionsContainer.innerHTML = '';
+    modelElement.src = currentQuestion.model;
+
+    currentQuestion.options.forEach((option, index) => {
+      const button = document.createElement('div');
+      button.className = 'option';
+      button.textContent = option;
+      button.addEventListener('click', () => selectOption(index));
+      optionsContainer.appendChild(button);
+    });
+
+    submitButton.textContent = currentQuestionIndex < quizData.length - 1 ? 'استمر' : 'تحقق من الإجابات';
+  }
+
+  function selectOption(index) {
+    document.querySelectorAll('.option').forEach(opt => opt.classList.remove('selected'));
+    document.querySelectorAll('.option')[index].classList.add('selected');
+    selectedAnswer = index;
+  }
+
+  submitButton.addEventListener('click', function() {
+    const correctAnswer = quizData[currentQuestionIndex].answer;
+    if (selectedAnswer === correctAnswer) score++;
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex < quizData.length) {
+      loadQuestion();
+    } else {
+      showResult();
+    }
+  });
+
+  function showResult() {
+    questionElement.textContent = '';
+    optionsContainer.innerHTML = '';
+    modelElement.style.display = 'none';
+    submitButton.style.display = 'none';
+
+    let message;
+    if (score >= 6) {
+      message = `<span id="success-message">🎉 مبروك! لقد حصلت على ${score} من ${quizData.length}. كود الفوز: 0054 🎉</span>`;
+    } else {
+      message = `<span id="failure-message">لقد حصلت على ${score} من ${quizData.length}. نتمنى لكم يوم وطني سعيد 🎉</span>`;
+    }
+
+    resultElement.innerHTML = message;
+  }
+
+  function closeAlert() {
+    document.getElementById('idalert').style.display = 'none';
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
